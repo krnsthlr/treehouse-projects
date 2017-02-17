@@ -30,7 +30,7 @@
 			}
 			$("#albums").html(albumHTML);
 			
-		}); //end getJSON*
+		}); //end getJSON
 
 	});//end submit event handler
 

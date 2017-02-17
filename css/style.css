@@ -119,7 +119,6 @@ button {
 
 .album-art {
   width: 100%;
-  height: 100%;
 }
 
 .album-list li {
@@ -222,7 +221,8 @@ button {
     width: 50%;
   }
 
-  .album-list .desc {
+  .album-list .desc,
+  .album-list .no-albums {
     width: 100%;
     float: none;
   }
