@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Album Search</title>
+  <link href='https://fonts.googleapis.com/css?family=Roboto:400,500,700' rel='stylesheet' type='text/css'>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="main-header">
+    <div class="inner">
+      <h1 class="main-title">AlbumSearch</h1>
+      <form class="search-form">
+        <label class="is-hidden" for="search">Search for music...</label>
+        <input type="search" name="search" id="search" placeholder="Search for Music..."
+
+        <button type="submit" id="submit" class="search-button"><i class="material-icons icn-search">search</i></button>
+        </input>
+      </form>
+    </div>
+  </div>
+
+  <div class="main-content clearfix">
+    <ul id="albums" class="album-list">
+      <li class="desc">
+        <i class="material-icons icn-album">album</i>
+        Search for your favorite albums!
+      </li>
+    <!-- ===============================================================
+      1- Example HTML you'll need to dynamically create with JavaScript.
+         Each result should generate a '<li>'.
+         Make sure you use the exact class names provided.
+         =============================================================== -->
+
+        <!--
+          <li>
+            <div class="album-wrap">
+              <img class="album-art" src="https://i.scdn.co/image/23837f31d4791981db85588e57a86cf2ce5b88e3">
+            </div>
+            <span class="album-title">Luck of the Draw</span>
+            <span class="album-artist">Bonnie Raitt</span>
+          </li>
+        -->
+
+    <!-- ============================================================
+      3- Display this <li> if the search form returns no album data
+         ============================================================ -->
+
+        <!--
+          <li class='no-albums'>
+            <i class='material-icons icon-help'>help_outline</i>No albums found that match: [search form value].
+          </li>
+        -->
+
+    </ul>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="js/app.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>
