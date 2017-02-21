@@ -56,6 +56,7 @@ button {
   z-index: 2000;
 }
 
+
 /* =================================
   Page Components
 ==================================== */
@@ -109,7 +110,8 @@ button {
 /* album LIST COMPONENTS -------- */
 
 .no-albums,
-.desc  {
+.desc,
+.error  {
   color: #b0b0b0;
   height: 140px;
   margin-top: 50px;
@@ -222,7 +224,8 @@ button {
   }
 
   .album-list .desc,
-  .album-list .no-albums {
+  .album-list .no-albums,
+  .album-list .error {
     width: 100%;
     float: none;
   }
