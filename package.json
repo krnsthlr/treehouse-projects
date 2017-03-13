@@ -9,6 +9,7 @@
   "author": "ksthlr",
   "license": "MIT",
   "dependencies": {
+    "express": "^4.15.2",
     "twit": "^2.2.5"
   }
 }
