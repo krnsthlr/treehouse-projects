@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const parse = require('./parse.js');
 const Twit = require('twit');
 const config = require('../config.js');
 
@@ -12,38 +13,22 @@ app.set('views', __dirname + '/views');
 
 app.use('/static', express.static(__dirname + '/public'));
 
-const extractTweets = (tweets) => {
-	return tweets.map((elem) => {
-		return {
-				avatar: elem.user.profile_image_url,
-				name: elem.user.name,
-				screen_name: elem.user.screen_name,
-				text: elem.text,
-				rts: elem.retweet_count,
-				likes: elem.favorite_count
-			}
-	});
-};
-
-const extractFriends = (friends) => {
-	return friends.map((elem) => {
-		return {
-				avatar: elem.profile_image_url,
-				name: elem.name,
-				screen_name: elem.screen_name
-			}
-	});
-};
+const getUser = () => T.get('account/verify_credentials', {include_entities: 'false', skip_status: 'true'})
+					  .then((result) => parse.user(result.data));
 
 const getTweets = () => T.get('statuses/user_timeline', {count: '5', include_rts: 'true', exclude_replies: 'true'})
-						.then((result) => extractTweets(result.data));
+						.then((result) => parse.tweets(result.data));
 
 const getFriends = () => T.get('friends/list', {count: '5', include_user_entities: 'false'})
-						.then((result) => extractFriends(result.data.users));
+						.then((result) => parse.friends(result.data.users));
+
+const getMessages = () => T.get('direct_messages', {count: '5'})
+						  .then((result) => parse.messages(result.data));
 
 app.get('/', (req,res) => {
-	Promise.all([getTweets(), getFriends()])
-			.then(([tweets, friends]) => res.render('index', {tweets: tweets, friends: friends}));
+	Promise.all([getUser(), getTweets(), getFriends(), getMessages()])
+			.then(([user, tweets, friends, messages]) => res.render('index', {user: user, tweets: tweets, friends: friends, messages: messages}))
+			.catch((error) => res.send('Sorry, there was a problem.' + error));
 });
 
 
