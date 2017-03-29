@@ -1,3 +1,4 @@
+/** parse twitter 'created_at' string and compute time elapsed */
 const parseDate = (dateString) => {
 	const tweetTime = new Date(Date.parse(dateString));
 	const now = new Date();
@@ -14,8 +15,9 @@ const parseDate = (dateString) => {
 	if(days > 0) return days + ' d';
 	if(hrs > 0) return hrs + ' h';
 	else return min + ' min';
-} 
+}
 
+/** twit response data extractors */
 const extractTweets = (tweets) => {
 	return tweets.map((elem) => {
 		return {
