@@ -52,8 +52,9 @@ const getMessages = () => T.get('direct_messages', {count: '5'})
 /** make the actual api requests, resolve and render */
 app.get('/', (req,res) => {
 	Promise.all([getUser(), getTweets(), getFriends(), getMessages()])
-			.then(([user, tweets, friends, messages]) => res.render('index', {user: user, tweets: tweets, friends: friends, messages: messages}))
-			.catch((e) => res.send(e));
+			.then(([user, tweets, friends, messages]) => res.render('index', 
+				{user: user, tweets: tweets, friends: friends, messages: messages}))
+			.catch((e) => res.render('error', {error: e}));
 });
 
 
