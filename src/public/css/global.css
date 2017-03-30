@@ -2123,6 +2123,15 @@ body {
   fill: #fff;
   margin: -3px 15px -3px 0;
 }
+
+.logo img {
+  float: left;
+  width: 35px;
+  fill: #fff;
+  margin: -3px 15px -3px 0;
+  border-radius: 6px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1) inset;
+}
 /* line 20, ../sass/global.sass */
 .logo h1 {
   font-size: 1.8rem;
