@@ -65,3 +65,17 @@ gulp.task('index', () => {
 gulp.task('build', () => {
 	runSeq('clean', ['scripts', 'styles', 'images'], 'index');
 });
+
+gulp.task('default', ['build'], () => {
+	return gulp.src(options.src + '/icons/**')
+		.pipe(gulp.dest(options.dist + '/icons'));
+});
+
+
+
+
+
+
+
+
+
