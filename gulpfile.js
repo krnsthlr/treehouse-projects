@@ -77,7 +77,7 @@ gulp.task('build', (done) => {
 
 gulp.task('serve', ['build'], () => {
 	browSync.init({
-		server: 'dist'
+		server: './dist'
 	});
 });
 
