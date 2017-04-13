@@ -11,7 +11,8 @@ const gulp = require('gulp'),
 	  maps = require('gulp-sourcemaps'),
 	inject = require('gulp-inject'),
 	runSeq = require('run-sequence'),
-livereload = require('gulp-livereload');
+	reload = require('gulp-livereload'),
+  browSync = require('browser-sync').create();
 
 const options = {
 	src: 'src',
@@ -29,7 +30,7 @@ gulp.task('scripts', () => {
 		.pipe(uglify())
 		.pipe(maps.write('./'))
 		.pipe(gulp.dest(options.dist + '/scripts'))
-		.pipe(livereload());
+		.pipe(reload());
 });
 
 gulp.task('compileSass', () => {
@@ -55,29 +56,37 @@ gulp.task('images', () => {
 		.pipe(gulp.dest(options.dist + '/images'));
 });
 
-gulp.task('index', () => {
-	const target = gulp.src(options.src + '/index.html');
-	const sources = gulp.src([options.dist + '/scripts/*', 
-		options.dist + '/styles/*']);
-
-	return target.pipe(inject(sources, {ignorePath: options.dist, addRootSlash: false}))
-		.pipe(gulp.dest(options.dist));
-});
-
-gulp.task('watch', () => {
-	livereload.listen();
-	gulp.watch(options.src + '/js/**/*.js', ['scripts']);
-});
-
-gulp.task('build', () => {
-	runSeq('clean', ['scripts', 'styles', 'images'], 'index');
-});
-
-gulp.task('default', ['build'], () => {
+gulp.task('icons', () => {
 	return gulp.src(options.src + '/icons/**')
 		.pipe(gulp.dest(options.dist + '/icons'));
 });
 
+gulp.task('index', () => {
+	const target = gulp.src(options.src + '/index.html');
+	const sources = gulp.src([options.dist + '/scripts/*', 
+		options.dist + '/styles/*']);
+	return target.pipe(inject(sources, {ignorePath: options.dist, addRootSlash: false}))
+		.pipe(gulp.dest(options.dist));
+});
+
+gulp.task('build', (done) => {
+	runSeq('clean', ['scripts', 'styles', 'images'], 'index', 'icons', () => {
+		return done();
+	});
+});
+
+gulp.task('serve', ['build'], () => {
+	browSync.init({
+		server: 'dist'
+	});
+});
+
+gulp.task('watch', () => {
+	reload.listen();
+	gulp.watch(options.src + '/js/**/*.js', ['scripts']);
+});
+
+gulp.task('default', ['build']);
 
 
 
