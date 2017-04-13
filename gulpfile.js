@@ -10,7 +10,8 @@ const gulp = require('gulp'),
   imagemin = require('gulp-imagemin'),
 	  maps = require('gulp-sourcemaps'),
 	inject = require('gulp-inject'),
-	runSeq = require('run-sequence');
+	runSeq = require('run-sequence'),
+livereload = require('gulp-livereload');
 
 const options = {
 	src: 'src',
@@ -27,7 +28,8 @@ gulp.task('scripts', () => {
 		.pipe(concat('all.min.js'))
 		.pipe(uglify())
 		.pipe(maps.write('./'))
-		.pipe(gulp.dest(options.dist + '/scripts'));
+		.pipe(gulp.dest(options.dist + '/scripts'))
+		.pipe(livereload());
 });
 
 gulp.task('compileSass', () => {
@@ -60,6 +62,11 @@ gulp.task('index', () => {
 
 	return target.pipe(inject(sources, {ignorePath: options.dist, addRootSlash: false}))
 		.pipe(gulp.dest(options.dist));
+});
+
+gulp.task('watch', () => {
+	livereload.listen();
+	gulp.watch(options.src + '/js/**/*.js', ['scripts']);
 });
 
 gulp.task('build', () => {
