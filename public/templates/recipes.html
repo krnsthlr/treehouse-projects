@@ -1,0 +1,60 @@
+<div class="grid-100 row controls">
+  <div class="grid-30">
+    <!-- TODO Add directives to the select elememt in order to 
+      populate the list with the categories from the database.
+      You'll also need to add directives to handle when the user 
+      selects a new category so that you can refresh the recipes list. -->
+    <select>
+      <option value="">All Categories</option>
+    </select>
+  </div>
+  <div class="grid-70">
+    <div class="flush-right">
+      <!-- TODO Add a directive to this button in order to handle 
+        when the user clicks to add a new recipe. -->
+      <button>+ Add Recipe</button>
+    </div>
+  </div>
+</div>
+<div class="clear"></div>
+
+<!-- TODO Add a directive to this div element so that it only displays
+  when there are no recipes to display. -->
+<div class="grid-100 row">
+  <div class="grid-70">
+    <p>No recipes found!</p>
+  </div>
+</div>
+
+<!-- TODO Add a directive to this div element 
+  so that it only displays when there are recipes to display. -->
+<div class="grid-100 row addHover" ng-repeat="recipe in vm.recipes">
+  <!-- TODO Replace this anchor element's href attribute with a 
+    directive so that you can route the user to the Recipe Detail 
+    screen when they click on a row. -->
+  <a href="#">
+    <div class="grid-70">
+        <h2>{{recipe.name}}</h2>
+        <p>{{recipe.description}}</p>
+        <p>Prep-Time: {{recipe.prepTime}} min.<br>
+        Cook-Time: {{recipe.cookTime}} min.</p>
+        <!-- TODO Add binding expressions here in order to 
+          display information about the recipe. -->
+    </div>
+  </a>
+  <div class="hoverBlock">
+    <div class="grid-30">
+      <div class="flush-right">
+        <p>
+          <!-- TODO Replace this anchor element's href attribute with a 
+            directive so that you can route the user to the Recipe Detail 
+            screen when they click on the 'Edit' link. -->
+          <a href="#"> <img src="images/edit.svg" height="12px"> Edit </a>
+          <!-- TODO Add a directive to this anchor element so that you can 
+            delete the recipe when the user clicks on the 'Delete' link. -->
+          <a class="no-action-link"> <img src="images/delete.svg" height="12px"> Delete </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,108 @@
+
+body {
+  max-width: 800px;
+  background: #f6ebe5;
+  color: #808080;
+  font-family: 'Varela Round', Helvetica, Arial, sans-serif;
+  text-align: center;
+  margin: 0 auto;
+  font-size: 16px;
+  padding-bottom: 80px; }
+
+a {
+  color: #808080;
+  text-decoration: none; }
+  a:hover {
+    color: #676767; }
+
+h1 {
+  font-size: 26px;
+  margin-top: 30px; }
+
+h2 {
+  font-size: 20px;
+  margin-top: 25px; }
+
+.controls button {
+  margin: 20px 0; }
+.controls select {
+  margin-top: 20px; }
+
+button, select, input, textarea {
+  font-family: 'Varela Round', Helvetica, Arial, sans-serif;
+  font-size: 14px; }
+
+select:focus, input:focus, textarea:focus {
+  border: 2px solid #808080; }
+
+.label-spacing {
+  margin-top: 26px; }
+
+input, textarea {
+  width: 89%;
+  background-color: white;
+  color: #808080;
+  text-align: center;
+  border-radius: 4px;
+  border: 2px solid #bfbab4;
+  outline: 0;
+  text-align: left;
+  padding: 10px; }
+
+select {
+  background-color: white;
+  color: #808080;
+  text-align: center;
+  border-radius: 3px;
+  border: 2px solid #bfbab4;
+  outline: 0;
+  height: 41px;
+  width: 100%; }
+
+button {
+  border: 0;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: white;
+  background: #808080;
+  cursor: pointer; }
+  button.secondary {
+    background: #bfbab4; }
+    button.secondary:hover {
+      background: #a8a198; }
+  button:hover {
+    background: #676767;
+    transition: background ease-in-out 0.3s; }
+
+.recipes {
+  margin: 20px auto 0;
+  text-align: left; }
+  .recipes .row {
+    background: white;
+    border-top: 1px solid #f6ebe5;
+    border-bottom: 1px solid #f6ebe5; }
+    .recipes .row:first-child {
+      border-radius: 8px 8px 0 0; }
+    .recipes .row:last-child {
+      border-radius: 0 0 8px 8px; }
+
+.add-row {
+  margin-bottom: 30px; }
+
+.addHover .hoverBlock {
+  opacity: 0;
+  transition: all ease-in-out 0.3s; }
+  .addHover .hoverBlock a:first-child {
+    margin-right: 12px; }
+.addHover:hover .hoverBlock {
+  opacity: 1; }
+
+.flush-right {
+  float: right; }
+
+.no-action-link:hover {
+  cursor: pointer; }
+
+.pad-top {
+  padding-top: 10px;
+}

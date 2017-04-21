@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+
+  <title>My Recipes</title>
+
+  <link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="styles/unsemantic-grid-responsive.css">
+  <link rel="stylesheet" href="styles/main.css">
+
+</head>
+
+<body ng-app="app">
+
+  <div class="grid-container">
+
+    <div class="grid-100">
+      <h1>
+        <img src="images/chefbot.svg" height="60px">
+        <br>
+        My Recipes
+      </h1>
+    </div>
+
+    <div class="grid-100">
+
+      <div class="recipes">
+
+        <div ng-view></div>
+
+        <div class="row">&nbsp;</div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="vendor/angular.js"></script>
+  <script src="vendor/angular-route.js"></script>
+  
+  <!-- TODO Add script tags for your JavaScript files here -->
+  
+  <script src="scripts/app.js"></script>
+  <script src="scripts/services/data.js"></script>
+  <script src="scripts/controllers/recipes.js"></script>
+  <script src="scripts/route-config.js"></script>
+
+ 
+</body>
+
+</html>
