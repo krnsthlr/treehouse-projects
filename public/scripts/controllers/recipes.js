@@ -9,6 +9,10 @@
 			dataService.getRecipes(function(response){
 				vm.recipes = response.data;
 			});
+
+			dataService.getCategories(function(response){
+				vm.categories = response.data;
+			});
 	});
 
 })();

@@ -10,7 +10,7 @@
   "author": "Treehouse Island, Inc.",
   "license": "ISC",
   "dependencies": {
-    "angular": "^1.5.3",
+    "angular": "^1.6.4",
     "angular-route": "^1.5.3",
     "body-parser": "^1.15.0",
     "express": "^4.13.4",

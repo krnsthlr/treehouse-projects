@@ -9,5 +9,9 @@
 			this.getRecipes = function(callback) {
 				$http.get(baseUrl + 'api/recipes').then(callback);
 			};
+
+			this.getCategories = function(callback) {
+				$http.get(baseUrl + 'api/categories').then(callback);
+			};
 	});
 })();
