@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular.module('app')
-		.controller('RecipesController', function(dataService) {
+		.controller('RecipesController', function(dataService, $location) {
 
 			var vm = this;
 
@@ -13,6 +13,10 @@
 			dataService.getCategories(function(response){
 				vm.categories = response.data;
 			});
+
+			vm.newRecipe = function(){
+				$location.path('/add');
+			};
 	});
 
 })();

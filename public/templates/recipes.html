@@ -13,7 +13,7 @@
     <div class="flush-right">
       <!-- TODO Add a directive to this button in order to handle 
         when the user clicks to add a new recipe. -->
-      <button>+ Add Recipe</button>
+      <button ng-click="vm.newRecipe()">+ Add Recipe</button>
     </div>
   </div>
 </div>
@@ -21,7 +21,8 @@
 
 <!-- TODO Add a directive to this div element so that it only displays
   when there are no recipes to display. -->
-<div class="grid-100 row">
+<div ng-hide="(filtered = (vm.recipes | filter:vm.selected.name)).length" 
+     class="grid-100 row">
   <div class="grid-70">
     <p>No recipes found!</p>
   </div>
@@ -29,8 +30,9 @@
 
 <!-- TODO Add a directive to this div element 
   so that it only displays when there are recipes to display. -->
-<div class="grid-100 row addHover" 
-     ng-repeat="recipe in vm.recipes | filter: vm.selected.name">
+<div class="grid-100 row addHover"
+     ng-show="(filtered = (vm.recipes | filter:vm.selected.name)).length" 
+     ng-repeat="recipe in vm.recipes | filter:vm.selected.name">
   <!-- TODO Replace this anchor element's href attribute with a 
     directive so that you can route the user to the Recipe Detail 
     screen when they click on a row. -->
