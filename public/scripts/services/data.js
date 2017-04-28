@@ -17,6 +17,7 @@
 			};
 
 			this.getRecipeById = function(id, callback){
+				if(id === '') return;
 				$http.get(baseUrl + 'api/recipes/' + id).then(callback);
 			};
 

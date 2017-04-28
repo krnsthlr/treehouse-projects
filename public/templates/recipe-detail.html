@@ -3,7 +3,8 @@
     <!-- TODO Add a binding expression to display the recipe name 
       when editing a recipe. When adding a recipe, display the 
       static text 'Add New Recipe'. -->
-    <h2>Add/Edit Recipe</h2>
+    <h2 ng-if="vm.location==='/add'">Add New Recipe</h2>
+    <h2 ng-if="vm.location!=='/add'">{{vm.recipe.name}}</h2>
   </div>
   <div class="grid-50">
     <div class="flush-right">
