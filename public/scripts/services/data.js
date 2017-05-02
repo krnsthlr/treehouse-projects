@@ -23,6 +23,10 @@
 
 			this.deleteRecipe = function(id, callback) {
 				$http.delete(baseUrl + 'api/recipes/' + id).then(callback);
-			}
+			};
+
+			this.getFoodItems = function(callback) {
+				$http.get(baseUrl + 'api/fooditems').then(callback);
+			};
 	});
 })();
