@@ -1,8 +1,5 @@
 <div class="grid-100 row controls">
   <div class="grid-50">
-    <!-- TODO Add a binding expression to display the recipe name 
-      when editing a recipe. When adding a recipe, display the 
-      static text 'Add New Recipe'. -->
     <h2 ng-if="vm.location==='/add'">Add New Recipe</h2>
     <h2 ng-if="vm.location!=='/add'">{{vm.recipe.name}}</h2>
   </div>
@@ -10,23 +7,22 @@
     <div class="flush-right">
       <!-- TODO Add directives to both the "Save Recipe" and "Cancel"
         buttons in order to handle user clicks. -->
-      <button>Save Recipe</button>
-      <button class="secondary">Cancel</button>
+      <button ng-if="vm.location==='/add'"
+              ng-click="vm.addRecipe(vm.recipe)">Save Recipe</button>
+      <button ng-if="vm.location!=='/add'"
+              ng-click="vm.updateRecipe(vm.currentId, vm.recipe)">Save Recipe</button>
+      <button ng-click="vm.cancel()" class="secondary">Cancel</button>
     </div>
   </div>
 </div>
 <div class="clear"></div>
 
-<!-- TODO Add a directive to this div element so that it only displays
-  when there are validation messages to display. -->
-<div class="grid-100 row">
+<div ng-show="vm.validationErrors.length" class="grid-100 row">
   <div class="grid-100">
     <p><i>The following errors were found:</i></p>
     <ul class="validation-errors">
-      <!-- TODO Add a directive to this li element so that it repeats
-        for each validation message that there is to display -->
-      <li>
-        <!-- TODO Add a binding expression to display the validation user message. -->
+      <li ng-repeat="error in vm.validationErrors">
+        {{error}}
       </li>
     </ul>
   </div>

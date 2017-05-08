@@ -4,30 +4,46 @@ angular.module('app')
 	.controller('RecipeDetailController', function(dataService, $location) {
 
 		var vm = this;
+		vm.validationErrors = [];
+
+		/** keeps track of the current recipe._id 
+		(equals to an empty string on '/add' route) */
 		vm.currentId = dataService.currentId;
+
+		/** evaluates to '/add' or '/edit/{id}'*/
 		vm.location = $location.path();
 
-		dataService.getCategories(function(response){
-			vm.categories = response.data;
-		});
+		/** response handler for 'updateRecipe'
+		& saveRecipe*/
+		var resHandler = function() {
+			location.path('/');
+		};
 
-		dataService.getFoodItems(function(response){
-			vm.foodItems = response.data;
-		});
+		/** error handler */
+		var errHandler = function(response) {
+			vm.validationErrors = [];
 
-		dataService.getRecipeById(vm.currentId, function(response){
-			vm.recipe = response.data;
-		});
+			console.log(response.config.url + ': ' +
+					'Error ' + response.status + ': ' + response.statusText);
 
+			if(response.data.errors){
+				var errors = response.data.errors;
+				for(var item in errors) {
+					vm.validationErrors.push(errors[item][0].userMessage);
+				};
+			}
+		};
+
+/**
+* ------------------------------------------------------------------------
+* EDITING a recipe
+* ------------------------------------------------------------------------
+*/
 		vm.deleteIngredient = function($index){
 			vm.recipe.ingredients.splice($index, 1);
 		};
 		
 		vm.addIngredient = function(){
-			if(vm.recipe === undefined || vm.recipe.ingredients === undefined)  {
-				vm.recipe = {};
-				vm.recipe.ingredients = [];
-			}
 			var ingredient = {
 				foodItem: '',
 				condition: '',
@@ -41,13 +57,64 @@ angular.module('app')
 		};
 
 		vm.addStep = function(){
-			if(vm.recipe === undefined || vm.recipe.steps === undefined) {
-				vm.recipe = {};
-				vm.recipe.steps = [];
-			}
 			var step = {
 				description: ''
 			}
 			vm.recipe.steps.push(step);
 		};
-	});
+
+/**
+* ------------------------------------------------------------------------
+* API calls
+* ------------------------------------------------------------------------
+*/
+		dataService.getCategories(function(response){
+			vm.categories = response.data;
+		}, errHandler);
+
+		dataService.getFoodItems(function(response){
+			vm.foodItems = response.data;
+		}, errHandler);
+
+		vm.getRecipe = function() {
+			if(vm.currentId === '') {
+				return vm.recipe = {
+					name: '',
+					description: '',
+					category: '',
+					prepTime: null,
+					cookTime: null,
+					ingredients: [],
+					steps: []
+				};
+					
+			} else {
+				dataService.getRecipeById(vm.currentId, function(response){
+				vm.recipe = response.data;
+				}, errHandler);
+			}
+		};
+
+		vm.recipe = vm.getRecipe();
+
+	/**
+	* ----------------------------------------------------------------------
+	* BUTTONS
+	* ----------------------------------------------------------------------
+	*/
+		vm.cancel = function(){
+			$location.path('/');
+		};
+
+		/** on '/edit/{id}' route */
+		vm.updateRecipe = function(id, recipe) {
+			dataService.updateRecipe(id, recipe, resHandler, errHandler);
+		};
+
+		/** on '/add' route */
+		vm.addRecipe = function(recipe) {
+			dataService.addRecipe(recipe, resHandler, errHandler);
+		};
+
+		
+});

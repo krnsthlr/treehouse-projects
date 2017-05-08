@@ -6,27 +6,50 @@
 
 			var baseUrl = 'http://localhost:5000/';
 
+			/** shares current recipe._id between Recipe & RecipeDetail Ctrls */
 			this.currentId = '';
 
-			this.getRecipes = function(callback) {
-				$http.get(baseUrl + 'api/recipes').then(callback);
+			this.getRecipes = function(successHandler, errHandler) {
+				$http.get(baseUrl + 'api/recipes')
+					.then(successHandler)
+					.catch(errHandler);
 			};
 
-			this.getCategories = function(callback) {
-				$http.get(baseUrl + 'api/categories').then(callback);
+			this.getCategories = function(successHandler, errHandler) {
+				$http.get(baseUrl + 'api/categories')
+					.then(successHandler)
+					.catch(errHandler);
 			};
 
-			this.getRecipeById = function(id, callback){
+			this.getRecipeById = function(id, successHandler, errHandler){
 				if(id === '') return;
-				$http.get(baseUrl + 'api/recipes/' + id).then(callback);
+				$http.get(baseUrl + 'api/recipes/' + id)
+					.then(successHandler)
+					.catch(errHandler);
 			};
 
-			this.deleteRecipe = function(id, callback) {
-				$http.delete(baseUrl + 'api/recipes/' + id).then(callback);
+			this.deleteRecipe = function(id, successHandler, errHandler) {
+				$http.delete(baseUrl + 'api/recipes/' + id)
+					.then(successHandler)
+					.catch(errHandler);
 			};
 
-			this.getFoodItems = function(callback) {
-				$http.get(baseUrl + 'api/fooditems').then(callback);
+			this.getFoodItems = function(successHandler, errHandler) {
+				$http.get(baseUrl + 'api/fooditems')
+					.then(successHandler)
+					.catch(errHandler);
+			};
+
+			this.updateRecipe = function(id, recipe, resHandler, errHandler) {
+				$http.put(baseUrl + 'api/recipes/' + id, recipe)
+					.then(resHandler)
+					.catch(errHandler);
+			};
+
+			this.addRecipe = function(recipe, resHandler, errHandler) {
+				$http.post(baseUrl + 'api/recipes', recipe)
+					.then(resHandler)
+					.catch(errHandler);
 			};
 	});
 })();
