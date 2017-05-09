@@ -27,7 +27,7 @@
 					.catch(errHandler);
 			};
 
-			this.getRecipeByCategory = function(category, successHandler, errHandler) {
+			this.getRecipesByCategory = function(category, successHandler, errHandler) {
 				$http.get(baseUrl + 'api/recipes?category=' + category)
 					.then(successHandler)
 					.catch(errHandler);

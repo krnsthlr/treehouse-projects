@@ -32,7 +32,7 @@
 				if (vm.selected === null) {
 					getRecipes();
 				} else {
-					dataService.getRecipeByCategory(category, function(response){
+					dataService.getRecipesByCategory(category, function(response){
 						vm.recipes = response.data;
 				}, errHandler)}
 				
@@ -40,7 +40,7 @@
 
 			vm.recipes = getRecipes();
 
-			/**
+	/**
 	* ----------------------------------------------------------------------
 	* BUTTONS and LINKS
 	* ----------------------------------------------------------------------

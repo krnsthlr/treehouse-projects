@@ -4,12 +4,12 @@ var express = require('express');
 // define recipe model
 var recipeFields = {
   name: {
-    required: true,
+    required: false,
     dataType: 'string',
     displayName: 'Name'
   },
   description: {
-    required: true,
+    required: false,
     dataType: 'string',
     displayName: 'Description'
   },
