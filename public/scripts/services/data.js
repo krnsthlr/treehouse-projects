@@ -21,21 +21,21 @@
 					.catch(errHandler);
 			};
 
+			this.getFoodItems = function(successHandler, errHandler) {
+				$http.get(baseUrl + 'api/fooditems')
+					.then(successHandler)
+					.catch(errHandler);
+			};
+
+			this.getRecipeByCategory = function(category, successHandler, errHandler) {
+				$http.get(baseUrl + 'api/recipes?category=' + category)
+					.then(successHandler)
+					.catch(errHandler);
+			};
+
 			this.getRecipeById = function(id, successHandler, errHandler){
 				if(id === '') return;
 				$http.get(baseUrl + 'api/recipes/' + id)
-					.then(successHandler)
-					.catch(errHandler);
-			};
-
-			this.deleteRecipe = function(id, successHandler, errHandler) {
-				$http.delete(baseUrl + 'api/recipes/' + id)
-					.then(successHandler)
-					.catch(errHandler);
-			};
-
-			this.getFoodItems = function(successHandler, errHandler) {
-				$http.get(baseUrl + 'api/fooditems')
 					.then(successHandler)
 					.catch(errHandler);
 			};
@@ -51,5 +51,12 @@
 					.then(resHandler)
 					.catch(errHandler);
 			};
+
+			this.deleteRecipe = function(id, successHandler, errHandler) {
+				$http.delete(baseUrl + 'api/recipes/' + id)
+					.then(successHandler)
+					.catch(errHandler);
+			};
+			
 	});
 })();

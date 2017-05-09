@@ -7,22 +7,54 @@
 			var vm = this;
 			vm.recipes = [];
 
-			/** generic error handler */
+			/** error handler */
 			var errHandler = function(response) {
 				console.log(response.config.url + ': ' +
 					'Error ' + response.status + ': ' + response.statusText);
 			};
 
-			/** API calls */
-			dataService.getRecipes(function(response){
-				vm.recipes = response.data;
-			}, errHandler);
-
+/**
+* ------------------------------------------------------------------------
+* API calls
+* ------------------------------------------------------------------------
+*/			
 			dataService.getCategories(function(response){
 				vm.categories = response.data;
 			}, errHandler);
 
-			/** delete and add functionality */
+			var getRecipes = function() {
+				dataService.getRecipes(function(response){
+					vm.recipes = response.data;
+				}, errHandler);
+			};
+
+			vm.filterRecipes = function(category) {
+				if (vm.selected === null) {
+					getRecipes();
+				} else {
+					dataService.getRecipeByCategory(category, function(response){
+						vm.recipes = response.data;
+				}, errHandler)}
+				
+			};
+
+			vm.recipes = getRecipes();
+
+			/**
+	* ----------------------------------------------------------------------
+	* BUTTONS and LINKS
+	* ----------------------------------------------------------------------
+	*/
+			vm.addRecipe = function(){
+				$location.path('/add');
+			};
+
+			/** keeps track of the current recipe._id when 
+			user clicks 'Edit' and is referred to '/edit/{id}'*/
+			vm.updateId = function(id) {
+				return dataService.currentId = id;
+			};
+
 			vm.deleteRecipe = function(id) {
 				dataService.deleteRecipe(id, function(){
 					for (var i in vm.recipes) {
@@ -31,15 +63,7 @@
 						}
 					}
 				}, errHandler);
-			};
-
-			vm.addRecipe = function(){
-				$location.path('/add');
-			};
-
-			vm.updateId = function(id) {
-				return dataService.currentId = id;
-			};
+			};		
 
 	});
 
