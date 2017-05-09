@@ -5,8 +5,6 @@
   </div>
   <div class="grid-50">
     <div class="flush-right">
-      <!-- TODO Add directives to both the "Save Recipe" and "Cancel"
-        buttons in order to handle user clicks. -->
       <button ng-if="vm.location==='/add'"
               ng-click="vm.addRecipe(vm.recipe)">Save Recipe</button>
       <button ng-if="vm.location!=='/add'"
