@@ -17,21 +17,21 @@
 			/** response handler for 'updateRecipe'
 			& saveRecipe*/
 			var resHandler = function(response) {
-				location.path('/');
+				$location.path('/');
 			};
 
 			/** error handler */
 			var errHandler = function(response) {
 				vm.validationErrors = [];
 
-				console.log(response.config.url + ': ' +
-					'Error ' + response.status + ': ' + response.statusText);
-
 				if(response.data.errors){
 					var errors = response.data.errors;
 					for(var item in errors) {
 						vm.validationErrors.push(errors[item][0].userMessage);
 					};
+				} else {
+					console.log(response.config.url + ': ' +
+					'Error ' + response.status + ': ' + response.statusText);
 				}
 			};
 
