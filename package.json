@@ -1,16 +1,20 @@
 {
   "name": "library-manager",
-  "version": "1.0.0",
-  "description": "A simple library manager (project 10 on the treehouse fullstack javaScript track)",
-  "main": "index.js",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/www"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
+    "body-parser": "~1.17.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.3",
+    "express": "~4.15.2",
+    "morgan": "~1.8.1",
+    "pug": "~2.0.0-beta11",
     "sequelize": "^3.30.4",
     "sequelize-cli": "^2.7.0",
+    "serve-favicon": "~2.4.2",
     "sqlite3": "^3.1.8"
   }
 }
