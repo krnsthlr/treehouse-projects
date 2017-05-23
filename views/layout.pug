@@ -1,7 +1,6 @@
 doctype html
-html
-  head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+html(lang="en")
+  include ./partials/_head.pug
   body
+    include ./partials/_nav.pug
     block content
