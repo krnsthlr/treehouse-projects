@@ -2,7 +2,7 @@ extends ../layout
 
 block content
 
-	h1 Overdue Books
+	h1 Checked Out Books
 	p
 		a.button(href='new_book.html') Create New Book
 	p
@@ -20,7 +20,7 @@ block content
 				th Genre
 				th Year Released
 		tbody
-			each book in overdueBooks
+			each book in checkedBooks
 				tr
 					td
 						a(href='book_detail.html') #{book.title}

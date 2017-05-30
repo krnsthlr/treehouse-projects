@@ -6,7 +6,7 @@ var Loan = require('../models').Loan;
 /* GET books listing. */
 router.get('/', function(req, res, next) {
 
-	/*get all books */
+	/* get all books */
 	if(!req.query.filter) {
 		Book.findAll().then(books => {
 			res.render('books/index', {books: books});
@@ -21,6 +21,7 @@ router.get('/', function(req, res, next) {
 			include: [
 				{model: Loan,
 					where: {
+						returned_on: null,
 						return_by: {
 							$lt: date
 						}
@@ -32,6 +33,27 @@ router.get('/', function(req, res, next) {
 			res.send(500, error);
 		});
 	}
+
+	/* get checked out books */ 
+	if(req.query.filter === 'checked_out') {
+		Book.findAll({
+			include: [
+				{
+					model: Loan,
+					required: true, 
+					where: {
+						returned_on: null
+					}
+				}
+			]
+		}
+		).then(checkedBooks => {
+			res.render('books/checked', {checkedBooks: checkedBooks});
+		}).catch(error => {
+			res.send(500, error);
+		});
+	}
+
 });
 
 module.exports = router;
