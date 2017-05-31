@@ -56,4 +56,26 @@ router.get('/', function(req, res, next) {
 
 });
 
+/* POST new book form */
+router.post('/new', function(req, res, next){
+	Book.create(req.body).then(book => {
+		res.redirect('/books');
+	}).catch(error => {
+		if(error.name === "SequelizeValidationError") {
+			res.render('books/new', {book: Book.build(req.body), errors: error.errors})
+		} else {
+			throw error;
+		}
+	}).catch(error => {
+		res.send(500, error);
+	});
+});
+
+/* GET new book form */
+router.get('/new', function(req, res, next) {
+	res.render('books/new', {book: {}});
+});
+
+
+
 module.exports = router;
