@@ -9,7 +9,7 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        // associations can be defined here
+        Loan.belongsTo(models.Patron, {foreignKey: 'patron_id'})
       }
     }
   });

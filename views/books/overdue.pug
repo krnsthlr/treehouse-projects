@@ -23,7 +23,7 @@ block content
 			each book in overdueBooks
 				tr
 					td
-						a(href='book_detail.html') #{book.title}
+						a(href='/books/' + book.id) #{book.title}
 					td #{book.author}
 					td #{book.genre}
 					td #{book.first_published}
