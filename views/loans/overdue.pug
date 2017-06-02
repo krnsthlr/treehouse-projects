@@ -2,7 +2,7 @@ extends ../layout
 
 block content
 
-	h1 Loans
+	h1 Overdue Loans
 	p
 		a.button(href='new_loan.html') Create New Loan
 	p
@@ -22,7 +22,7 @@ block content
 				th Returned on
 				th Action
 		tbody
-			each loan in loans
+			each loan in overdueLoans
 				tr
 					td
 						a(href='/books/' + loan.Book.id) #{loan.Book.title}
