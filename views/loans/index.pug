@@ -1,0 +1,35 @@
+extends ../layout
+
+block content
+
+	h1 Loans
+	p
+		a.button(href='new_loan.html') Create New Loan
+	p
+		| Filters 
+		a(href='/loans') All
+		|  
+		a(href='overdue_loans.html') Overdue
+		|  
+		a(href='checked_loans.html') Checked Out
+	table
+		thead
+			tr
+				th Book
+				th Patron 
+				th Loaned on
+				th Return by 
+				th Returned on
+				th Action
+		tbody
+			each loan in loans
+				tr
+					td
+						a(href='/books/' + loan.Book.id) #{loan.Book.title}
+					td
+						a(href='patron_detail.html') #{loan.Patron.first_name} #{loan.Patron.last_name}
+					td #{loan.loaned_on}
+					td #{loan.return_by}
+					td #{loan.returned_on}
+					td
+						a.button(href='return_book.html') Return Book
