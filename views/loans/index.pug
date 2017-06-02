@@ -2,7 +2,7 @@ extends ../layout
 
 block content
 
-	h1 Loans
+	h1 #{title}
 	p
 		a.button(href='new_loan.html') Create New Loan
 	p
@@ -11,7 +11,7 @@ block content
 		|  
 		a(href='/loans?filter=overdue') Overdue
 		|  
-		a(href='checked_loans.html') Checked Out
+		a(href='/loans?filter=checked') Checked Out
 	table
 		thead
 			tr

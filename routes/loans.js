@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
 				}
 			]
 		}).then(loans => {
-			res.render('loans/index', {loans: loans});		
+			res.render('loans/index', {loans: loans, title: 'Loans'});		
 		}).catch(error => {
 			res.send(500);
 		});
@@ -33,14 +33,25 @@ router.get('/', function(req, res, next) {
 					$lt: date
 				}
 			}
-		}).then(overdueLoans => {
-			res.render('loans/overdue', {overdueLoans: overdueLoans});
+		}).then(loans => {
+			res.render('loans/index', {loans: loans, title: 'Overdue Loans'});
 		}).catch(error => {
 			res.send(500);
 		});
 	}
 	/* get checked out loans */ 
-
+	if(req.query.filter='checked') {
+		Loan.findAll({
+			include: [{all: true}],
+			where: {
+				returned_on: null
+			}
+		}).then(loans => {
+			res.render('loans/index', {loans: loans, title: 'Checked Out Books'})
+		}).catch(error => {
+			res.send(500);
+		});
+	}
 
 });
 
