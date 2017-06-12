@@ -44,7 +44,7 @@ router.get('/', function(req, res, next) {
 			res.send(500);
 		});
 	}
-	/* get laons with status overdue */ 
+	/* get loans with status overdue */ 
 	if(req.query.filter == 'overdue') {
 		var date = new Date();
 		Loan.findAll({
@@ -126,5 +126,49 @@ router.get('/new', function(req, res, next) {
 		});
 });
 
+/* GET return loan form */
+router.get('/:id', function(req, res, next){
+
+	var returned_on = new Date();
+	returned_on = returned_on.toISOString().substr(0,10);
+
+	Loan.findById(req.params.id, {
+		include: [{all: true}]
+	}).then(loan => {
+		if(loan) {
+			res.render('loans/return', {loan: loan, returned_on: returned_on});
+		} else {
+			res.send(400);
+		}
+		
+	}).catch(error => {
+		res.send(500);
+	});
+});
+
+/* PUT return loan form */
+router.put('/:id', function(req, res, next) {
+	Loan.findById(req.params.id).then(loan => {
+		if(loan){
+			return loan.update(req.body);
+		} else {
+			res.send(404);
+		}
+	}).then(loan => {
+		res.redirect('/loans');
+	}).catch(error => {
+		res.send(500);
+	});
+});
 
 module.exports = router;
+
+
+
+
+
+
+
+
+
+

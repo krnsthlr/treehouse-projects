@@ -28,8 +28,8 @@ router.get('/', function(req, res, next) {
 						}
 					}}
 			]
-		}).then(overdueBooks => {
-			res.render('books/overdue', {overdueBooks: overdueBooks});
+		}).then(books => {
+			res.render('books/index', {books: books});
 		}).catch(error => {
 			res.send(500);
 		});
@@ -48,8 +48,8 @@ router.get('/', function(req, res, next) {
 				}
 			]
 		}
-		).then(checkedBooks => {
-			res.render('books/checked', {checkedBooks: checkedBooks});
+		).then(books => {
+			res.render('books/index', {books: books});
 		}).catch(error => {
 			res.send(500);
 		});
