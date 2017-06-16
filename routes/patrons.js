@@ -14,6 +14,26 @@ router.get('/', function(req, res, next){
 	});
 });
 
+/* GET new patron form */
+router.get('/new', function(req, res, next){
+	res.render('patrons/new', {patron: {}});
+});
+
+/* POST new patron */
+router.post('/new', function(req, res, next){
+	Patron.create(req.body).then(patron => {
+		res.redirect('/patrons');
+	}).catch(error => {
+		if(error.name === 'SequelizeValidationError'){
+			res.render('patrons/new', {patron: Patron.build(req.body), errors: error.errors});
+		} else {
+			throw error
+		}
+	}).catch(error => {
+		res.send(500);
+	})
+});
+
 /* GET individual patron */
 router.get('/:id', function(req, res, next){
 	Patron.findById(req.params.id, {
@@ -31,6 +51,28 @@ router.get('/:id', function(req, res, next){
 		}
 	}).catch(error => {
 		res.send(500);
+	});
+});
+
+/* PUT edit/ update individual patron */
+router.put('/:id', function(req, res, next){
+	Patron.findById(req.params.id, {
+		include: [ 
+			{
+				model: Loan,
+				include: [{model: Patron}]
+			}
+		]
+	}).then(patron => {
+		if(patron) {
+			return patron.update(req.body);
+		} else {
+			res.send(404);
+		}
+	}).then(patron => {
+			res.redirect('/patrons');
+	}).catch(error => {
+		res.send(error.message);
 	});
 });
 

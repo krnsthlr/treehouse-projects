@@ -1,0 +1,27 @@
+extends ../layout
+
+block content
+
+	h1 New Patron
+	include ../errors
+	form(method='post')
+		p
+			label(for='first_name') First Name
+			input#first_name(type='text', name='first_name', value=patron.first_name)
+		p
+			label(for='last_name') Last Name
+			input#last_name(type='text', name='last_name', value=patron.last_name)
+		p
+			label(for='address')  Address
+			input#address(type='text', name='address', value=patron.address)
+		p
+			label(for='email') Email
+			input#email(type='text', name='email', value=patron.email)
+		p
+			label(for='library_id') Library ID
+			input#library_id(type='text', name='library_id', value=patron.library_id)
+		p
+			label(for='zip_code') Zip Code
+			input#zip_code(type='text', name='zip_code', value=patron.zip_code)
+		p
+			input(type='submit', value='Create New Patron')
