@@ -9,6 +9,7 @@ var methodOverride = require('method-override');
 var index = require('./routes/index');
 var books = require('./routes/books');
 var loans = require('./routes/loans');
+var patrons = require('./routes/patrons');
 
 var app = express();
 
@@ -28,6 +29,7 @@ app.use('/static', express.static(__dirname + '/public'));
 app.use('/', index);
 app.use('/books', books);
 app.use('/loans', loans);
+app.use('/patrons', patrons);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
