@@ -10,7 +10,7 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        // associations can be defined here
+         Patron.hasMany(models.Loan, {foreignKey: 'patron_id'});
       }
     }
   });
