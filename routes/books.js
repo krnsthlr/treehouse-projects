@@ -29,7 +29,7 @@ router.get('/', function(req, res, next) {
 					}}
 			]
 		}).then(books => {
-			res.render('books/index', {books: books, title: 'Overdue Books'});
+			res.render('books/index', {books: books});
 		}).catch(error => {
 			res.send(500);
 		});
@@ -49,7 +49,7 @@ router.get('/', function(req, res, next) {
 			]
 		}
 		).then(books => {
-			res.render('books/index', {books: books, title: 'Checked Out Books'});
+			res.render('books/index', {books: books});
 		}).catch(error => {
 			res.send(500);
 		});
