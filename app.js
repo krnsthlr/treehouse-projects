@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
+var expressValidator = require('express-validator');
 
 var index = require('./routes/index');
 var books = require('./routes/books');
@@ -24,6 +25,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(expressValidator());
 app.use('/static', express.static(__dirname + '/public'));
 
 app.use('/', index);

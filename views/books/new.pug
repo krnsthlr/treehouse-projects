@@ -4,19 +4,30 @@ block content
 
 	h1 New Book
 	
-	include ../errors
 	form(method='post')
 		p
 			label(for='title') Title
 			input(type='text', name='title', value=book.title)
+
+			if (errors && errors.title)
+				span.notify-error #{errors.title.msg}
 		p
 			label(for='author') Author
 			input(type='text', name='author', value=book.author)
+
+			if (errors && errors.author)
+				span.notify-error #{errors.author.msg}
 		p
 			label(for='genre') Genre
 			input(type='text', name='genre', value=book.genre)
+
+			if (errors && errors.genre)
+				span.notify-error #{errors.genre.msg}
 		p
 			label(for='first_published') First Published
 			input(type='text', name='first_published', value=book.first_published)
+				
+			if (errors && errors.first_published)
+				span.notify-error #{errors.first_published.msg}
 		p
 			input(type='submit', value='Create New Book')

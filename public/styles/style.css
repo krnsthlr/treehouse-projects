@@ -1,3 +1,5 @@
+@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+
 body {
   padding: 50px;
   font: 18px "Garamond", serif;
@@ -91,4 +93,36 @@ input {
 }
 input[type=text], select {
   margin-left: 10px;
+}
+
+/* error styles */
+
+.notify-error {
+    padding:10px;
+    margin:10px 10px;
+ 
+}
+.notify-error:before {
+    font-family:FontAwesome;
+    font-style:normal;
+    font-weight:400;
+    speak:none;
+    display:inline-block;
+    text-decoration:inherit;
+    width:1em;
+    margin-right:.2em;
+    text-align:center;
+    font-variant:normal;
+    text-transform:none;
+    line-height:1em;
+    margin-left:.2em;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale
+}
+.notify-error:before {
+    content:'\f057';
+}
+.notify-error {
+    color: #D8000C;
+    background-color: #FFBABA;
 }

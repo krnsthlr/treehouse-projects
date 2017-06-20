@@ -3,6 +3,7 @@ var router = express.Router();
 var Book = require('../models').Book;
 var Loan = require('../models').Loan;
 var Patron = require('../models').Patron;
+var bookSchema = require('../validate.js').bookSchema;
 
 /* GET books listing. */
 router.get('/', function(req, res, next) {
@@ -57,24 +58,35 @@ router.get('/', function(req, res, next) {
 
 });
 
-/* POST new book form */
-router.post('/new', function(req, res, next){
-	Book.create(req.body).then(book => {
-		res.redirect('/books');
-	}).catch(error => {
-		if(error.name === "SequelizeValidationError") {
-			res.render('books/new', {book: Book.build(req.body), errors: error.errors})
-		} else {
-			throw error;
-		}
-	}).catch(error => {
-		res.send(500);
-	});
-});
-
 /* GET new book form */
 router.get('/new', function(req, res, next) {
 	res.render('books/new', {book: {}});
+});
+
+/* POST new book form */
+router.post('/new', function(req, res, next){
+
+	req.checkBody(bookSchema);
+	var book = Book.build(req.body);
+
+	req.getValidationResult().then(result => {
+
+		var errors = result.useFirstErrorOnly().mapped();
+
+		if(errors) {
+			res.render('books/new', {book: book, errors: errors});
+			return;
+		} 
+
+		else {
+			book.save().then(book => {
+				res.redirect('/books');
+			}).catch(error => {
+				res.send(500);
+			});
+		}
+	});
+	
 });
 
 /* GET individual book */
@@ -100,24 +112,54 @@ router.get('/:id', function(req, res, next){
 
 /* PUT edit/update individual book */
 router.put('/:id', function(req, res, next){
-	Book.findById(req.params.id, {
-		include: [ 
-			{
-				model: Loan,
-				required: false,
-				include: [{model: Patron}]
-			}
-		]
-	}).then(book => {
-		if(book) {
-			return book.update(req.body);
-		} else {
-			res.send(404);
+	
+	req.checkBody(bookSchema);
+
+	req.getValidationResult().then(result => {
+
+		var errors = result.useFirstErrorOnly().mapped();
+
+		if(Object.keys(errors).length) {
+
+			Book.findById(req.params.id, {
+				include: [ 
+					{
+						model: Loan,
+						required: false,
+						include: [{model: Patron}]
+					}
+				]
+			}).then(book => {
+
+				book.title = req.body.title;
+				book.author = req.body.author;
+				book.genre = req.body.genre;
+				book.first_published = req.body.first_published;
+
+				res.render('books/detail', {book: book, errors: errors});
+			}).catch(error => {
+				res.send(error.message);
+			});
+			
 		}
-	}).then(book => {
-			res.redirect('/books');
-	}).catch(error => {
-		res.send(error.message);
+
+		else {
+			Book.findById(req.params.id, {
+				include: [ 
+					{
+						model: Loan,
+						required: false,
+						include: [{model: Patron}]
+					}
+				]
+			}).then(book => {
+				book.update(req.body);
+				res.redirect('/books');
+			}).catch(error => {
+				res.send(error.message);
+			});		
+		}
+
 	});
 });
 
