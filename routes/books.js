@@ -75,7 +75,6 @@ router.post('/new', function(req, res, next){
 
 		if(errors) {
 			res.render('books/new', {book: book, errors: errors});
-			return;
 		} 
 
 		else {

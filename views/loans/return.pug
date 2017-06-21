@@ -19,5 +19,8 @@ block content
 		p
 			label(for='returned_on') Returned on:
 			input#returned_on(type='text', name='returned_on' value=returned_on)
+
+			if (errors)
+				span.notify-error #{errors[0].msg}
 		p
 			input(type='submit', value='Return Book')

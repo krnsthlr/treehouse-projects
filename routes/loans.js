@@ -5,6 +5,8 @@ var Loan = require('../models').Loan;
 var Patron = require('../models').Patron;
 var Book = require('../models'). Book;
 
+var loanSchema = require('../validate.js').loanSchema;
+
 
 /* generate promises for GET new loan form */
 var getBooks = () => Book.findAll().then(books => {
@@ -77,32 +79,6 @@ router.get('/', function(req, res, next) {
 
 });
 
-/* POST new loan form */
-router.post('/new', function(req, res, next) {
-	Loan.create(req.body).then(loan => {
-		res.redirect('/loans');
-	}).catch(error => {
-		if(error.name === "SequelizeValidationError") {
-			Promise.all([getBooks(), getPatrons()])
-				.then(([books, patrons]) => {
-					res.render('loans/new',
-					 {
-					 	books: books, 
-					 	patrons: patrons, 
-					 	loaned_on: req.body.loaned_on, 
-					 	return_by: req.body.return_by,
-					 	errors: error.errors,
-					 	loan: Loan.build(req.body)
-					 })
-				});		
-		} else {
-			throw error;
-		}
-	}).catch(error => {
-		res.send(500);
-	});
-});
-
 /* GET new loan form */
 router.get('/new', function(req, res, next) {
 	Promise.all([getBooks(), getPatrons()])
@@ -122,9 +98,47 @@ router.get('/new', function(req, res, next) {
 					return_by: return_by
 				});
 		}).catch(error => {
-			res.send(500);
+			res.send(error.message);
 		});
 });
+
+/* POST new loan form */
+router.post('/new', function(req, res, next) {
+
+	req.checkBody(loanSchema);
+
+	req.getValidationResult().then(result => {
+
+		var errors = result.useFirstErrorOnly().mapped();
+		var loan = Loan.build(req.body);
+
+		if(Object.keys(errors).length) {
+			Promise.all([getBooks(), getPatrons()])
+				.then(([books, patrons]) => {
+					res.render('loans/new', {
+						books: books,
+						patrons: patrons,
+						loan: loan,
+						loaned_on: req.body.loaned_on,
+						return_by: req.body.return_by,
+						errors: errors
+				})
+			}).catch(error => {
+				res.send(error.message);
+			});
+		}
+
+		else {
+			loan.save().then(() => {
+				res.redirect('/loans');
+			}).catch(error => {
+				res.send(500);
+			});
+		}
+
+	});
+});
+
 
 /* GET return loan form */
 router.get('/:id', function(req, res, next){
@@ -148,17 +162,33 @@ router.get('/:id', function(req, res, next){
 
 /* PUT return loan form */
 router.put('/:id', function(req, res, next) {
-	Loan.findById(req.params.id).then(loan => {
-		if(loan){
-			return loan.update(req.body);
-		} else {
-			res.send(404);
-		}
-	}).then(loan => {
-		res.redirect('/loans');
-	}).catch(error => {
-		res.send(500);
-	});
+
+	req.checkBody('returned_on', 'Invalid date.').notEmpty().isISO8601();
+	var errors = req.validationErrors();
+
+	if(errors) {
+
+		Loan.findById(req.params.id, {
+			include: [{all: true}]
+		}).then(loan => {
+			res.render('loans/return', {
+				loan:loan, 
+				returned_on: req.body.returned_on, 
+				errors: errors
+			})
+		}).catch(error => {
+			res.send(error.message);
+		});
+	}
+
+	else {
+		Loan.findById(req.params.id).then(loan => {
+			loan.update(req.body);
+			res.redirect('/loans');
+		}).catch(error => {
+			res.send(error.message);
+		});
+	}
 });
 
 module.exports = router;

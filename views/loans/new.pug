@@ -3,33 +3,47 @@ extends ../layout
 block content
 
 	h1 New Loan
-	include ../errors
 	form(method='post')
 		p
 			label(for='book_id') Book
 			select#book_id(name='book_id')
-				if loan
+
+				if (loan && loan.book_id !== 'null')
 					each book in books
 						option(type='text' name='book_id' value=book.book_id selected=(book.book_id==loan.book_id ? 'selected' : false) ) #{book.title}
 				else
 					option(type='text' name='book_id' value='null' selected='true') Choose a Book
 					each book in books
 						option(type='text' name='book_id' value=book.book_id) #{book.title}
+
+			if (errors && errors.book_id)
+				span.notify-error #{errors.book_id.msg}
+
 		p
 			label(for='patron_id') Patron
 			select#patron_id(name='patron_id')
-				if loan
+
+				if (loan && loan.patron_id !== 'null')
 					each patron in patrons
 						option(type='text' name='patron_id' value=patron.patron_id selected=(patron.patron_id==loan.patron_id ? 'selected' : false) ) #{patron.first_name} #{patron.last_name}
 				else
 					option(type='text' name='patron_id' value='null' selected='true') Choose a Patron
 					each patron in patrons
 						option(type='text' name='patron_id' value=patron.patron_id) #{patron.first_name} #{patron.last_name}
+
+			if (errors && errors.patron_id)
+				span.notify-error #{errors.patron_id.msg}
 		p
 			label(for='loaned_on') Loaned on:
 			input#loaned_on(type='text', name='loaned_on' value=loaned_on)
+
+			if (errors && errors.loaned_on)
+				span.notify-error #{errors.loaned_on.msg}
 		p
 			label(for='return_by') Return by:
 			input#return_by(type='text', name='return_by' value=return_by)
+
+			if (errors && errors.return_by)
+				span.notify-error #{errors.return_by.msg}
 		p
 			input(type='submit', value='Create New Loan')

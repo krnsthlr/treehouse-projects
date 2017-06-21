@@ -95,6 +95,10 @@ input[type=text], select {
   margin-left: 10px;
 }
 
+select {
+  margin-bottom: 10px;
+}
+
 /* error styles */
 
 .notify-error {
