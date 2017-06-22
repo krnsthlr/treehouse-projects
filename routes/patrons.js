@@ -5,6 +5,8 @@ var Patron = require('../models').Patron;
 var Loan = require('../models').Loan;
 var Book = require('../models').Book;
 
+var patronSchema = require('../validate.js').patronSchema;
+
 /* GET patrons listing */
 router.get('/', function(req, res, next){
 	Patron.findAll().then(patrons => {
@@ -21,17 +23,27 @@ router.get('/new', function(req, res, next){
 
 /* POST new patron */
 router.post('/new', function(req, res, next){
-	Patron.create(req.body).then(patron => {
-		res.redirect('/patrons');
-	}).catch(error => {
-		if(error.name === 'SequelizeValidationError'){
-			res.render('patrons/new', {patron: Patron.build(req.body), errors: error.errors});
-		} else {
-			throw error
+
+	req.checkBody(patronSchema);
+	var patron = Patron.build(req.body);
+
+	req.getValidationResult().then(result => {
+
+		var errors = result.useFirstErrorOnly().mapped();
+
+		if(errors) {
+			res.render('patrons/new', {patron: patron, errors: errors});
 		}
-	}).catch(error => {
-		res.send(500);
-	})
+
+		else {
+			patron.save().then(() => {
+				res.redirect('/patrons');
+			}).catch(error => {
+				res.send(500);
+			});
+		}
+
+	});
 });
 
 /* GET individual patron */
@@ -56,23 +68,46 @@ router.get('/:id', function(req, res, next){
 
 /* PUT edit/ update individual patron */
 router.put('/:id', function(req, res, next){
-	Patron.findById(req.params.id, {
-		include: [ 
-			{
-				model: Loan,
-				include: [{model: Patron}]
-			}
-		]
-	}).then(patron => {
-		if(patron) {
-			return patron.update(req.body);
-		} else {
-			res.send(404);
+
+	req.checkBody(patronSchema);
+
+	req.getValidationResult().then(result => {
+
+		var errors = result.useFirstErrorOnly().mapped();
+
+		if(Object.keys(errors).length) {
+			Patron.findById(req.params.id, {
+				include: [
+					{
+						model: Loan,
+						include: [{model: Book}]
+					}
+				]
+			}).then(patron => {
+
+				patron.first_name = req.body.first_name;
+				patron.last_name = req.body.last_name;
+				patron.address = req.body.address;
+				patron.email = req.body.email;
+				patron.library_id = req.body.library_id;
+				patron.zip_code = req.body.zip_code;
+
+				res.render('patrons/detail', {patron: patron, errors: errors})
+			}).catch(error => {
+				res.send(error.message);
+			})
 		}
-	}).then(patron => {
-			res.redirect('/patrons');
-	}).catch(error => {
-		res.send(error.message);
+
+		else {
+			Patron.findById(req.params.id).then(patron => {
+				return patron.update(req.body);
+			}).then(() => {
+				res.redirect('/patrons');
+			}).catch(error => {
+				res.send(500);
+			});
+		}
+
 	});
 });
 

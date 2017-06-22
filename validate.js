@@ -57,6 +57,52 @@ var loanSchema = {
 	}
 }
 
+var patronSchema = {
+	'first_name': {
+		notEmpty: {
+			errorMessage: 'First name is required.'
+		},
+		isAlpha: {
+			errorMessage: 'Invalid first name.'
+		}
+	},
+	'last_name': {
+		notEmpty: {
+			errorMessage: 'Last name is required.'
+		},
+		isAlpha: {
+			errorMessage: 'Invalid last name.'
+		}
+	},
+	'address': {
+		notEmpty: {
+			errorMessage: 'Address is required.'
+		}
+	},
+	'email': {
+		notEmpty: {
+			errorMessage: 'Email is required.'
+		},
+		isEmail: {
+			errorMessage: 'Invalid email.'
+		}
+	},
+	'library_id': {
+		notEmpty: {
+			errorMessage: 'Library ID is required.'
+		}
+	},
+	'zip_code': {
+		notEmpty: {
+			errorMessage: 'Zip code is required.'
+		},
+		isLength: {
+			options: [{min: 5, max: 5}]
+		}
+	}
+}
+
 
 module.exports.bookSchema = bookSchema;
 module.exports.loanSchema = loanSchema;
+module.exports.patronSchema = patronSchema;
