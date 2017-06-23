@@ -30,7 +30,7 @@ router.get('/', function(req, res, next) {
 					}}
 			]
 		}).then(books => {
-			res.render('books/index', { books });
+			res.render('books/index', { books, title: 'Overdue Books' });
 		}).catch(next);
 	}
 
@@ -48,7 +48,7 @@ router.get('/', function(req, res, next) {
 			]
 		}
 		).then(books => {
-			res.render('books/index', { books });
+			res.render('books/index', { books, title: 'Checked Out Books' });
 		}).catch(next);
 	}
 
@@ -69,7 +69,7 @@ router.post('/new', function(req, res, next){
 
 		var errors = result.useFirstErrorOnly().mapped();
 
-		if(errors) {
+		if(Object.keys(errors).length) {
 			res.render('books/new', { book, errors });
 		} 
 

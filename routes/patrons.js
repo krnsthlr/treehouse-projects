@@ -29,7 +29,7 @@ router.post('/new', function(req, res, next){
 
 		var errors = result.useFirstErrorOnly().mapped();
 
-		if(errors) {
+		if(Object.keys(errors).length) {
 			res.render('patrons/new', { patron, errors });
 		}
 
