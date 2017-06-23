@@ -10,10 +10,8 @@ var patronSchema = require('../validate.js').patronSchema;
 /* GET patrons listing */
 router.get('/', function(req, res, next){
 	Patron.findAll().then(patrons => {
-		res.render('patrons/index', {patrons: patrons});
-	}).catch(error => {
-		res.send(500);
-	});
+		res.render('patrons/index', { patrons });
+	}).catch(next);
 });
 
 /* GET new patron form */
@@ -32,17 +30,14 @@ router.post('/new', function(req, res, next){
 		var errors = result.useFirstErrorOnly().mapped();
 
 		if(errors) {
-			res.render('patrons/new', {patron: patron, errors: errors});
+			res.render('patrons/new', { patron, errors });
 		}
 
 		else {
 			patron.save().then(() => {
 				res.redirect('/patrons');
-			}).catch(error => {
-				res.send(500);
-			});
+			}).catch(next);
 		}
-
 	});
 });
 
@@ -56,14 +51,11 @@ router.get('/:id', function(req, res, next){
 			}
 		}
 	}).then(patron => {
-		if(patron) {
-			res.render('patrons/detail', {patron: patron});	
-		} else {
-			res.send(404);
+		if (!patron) {
+			next();
 		}
-	}).catch(error => {
-		res.send(500);
-	});
+		res.render('patrons/detail', {patron: patron});
+	}).catch(next);
 });
 
 /* PUT edit/ update individual patron */
@@ -93,9 +85,7 @@ router.put('/:id', function(req, res, next){
 				patron.zip_code = req.body.zip_code;
 
 				res.render('patrons/detail', {patron: patron, errors: errors})
-			}).catch(error => {
-				res.send(error.message);
-			})
+			});
 		}
 
 		else {
@@ -103,11 +93,8 @@ router.put('/:id', function(req, res, next){
 				return patron.update(req.body);
 			}).then(() => {
 				res.redirect('/patrons');
-			}).catch(error => {
-				res.send(500);
-			});
+			}).catch(next);
 		}
-
 	});
 });
 

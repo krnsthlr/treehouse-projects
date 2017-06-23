@@ -41,10 +41,8 @@ router.get('/', function(req, res, next) {
 				}
 			]
 		}).then(loans => {
-			res.render('loans/index', {loans: loans, title: 'Loans'});		
-		}).catch(error => {
-			res.send(500);
-		});
+			res.render('loans/index', { loans, title: 'Loans' });		
+		}).catch(next);
 	}
 	/* get loans with status overdue */ 
 	if(req.query.filter == 'overdue') {
@@ -58,11 +56,10 @@ router.get('/', function(req, res, next) {
 				}
 			}
 		}).then(loans => {
-			res.render('loans/index', {loans: loans, title: 'Overdue Loans'});
-		}).catch(error => {
-			res.send(500);
-		});
+			res.render('loans/index', { loans, title: 'Overdue Loans'} );
+		}).catch(next);
 	}
+
 	/* get checked out loans */ 
 	if(req.query.filter='checked') {
 		Loan.findAll({
@@ -71,10 +68,8 @@ router.get('/', function(req, res, next) {
 				returned_on: null
 			}
 		}).then(loans => {
-			res.render('loans/index', {loans: loans, title: 'Checked Out Books'})
-		}).catch(error => {
-			res.send(500);
-		});
+			res.render('loans/index', { loans, title: 'Checked Out Books'})
+		}).catch(next);
 	}
 
 });
@@ -90,16 +85,8 @@ router.get('/new', function(req, res, next) {
 			return_by.setDate(return_by.getDate() + 7);
 			return_by = return_by.toISOString().substr(0,10);
 
-			res.render('loans/new', 
-				{
-					books: books, 
-					patrons: patrons, 
-					loaned_on: loaned_on, 
-					return_by: return_by
-				});
-		}).catch(error => {
-			res.send(error.message);
-		});
+			res.render('loans/new', { books, patrons, loaned_on, return_by});
+		}).catch(next);
 });
 
 /* POST new loan form */
@@ -116,29 +103,21 @@ router.post('/new', function(req, res, next) {
 			Promise.all([getBooks(), getPatrons()])
 				.then(([books, patrons]) => {
 					res.render('loans/new', {
-						books: books,
-						patrons: patrons,
-						loan: loan,
+						books, patrons, loan,
 						loaned_on: req.body.loaned_on,
 						return_by: req.body.return_by,
-						errors: errors
+						errors
 				})
-			}).catch(error => {
-				res.send(error.message);
-			});
+			}).catch(next);
 		}
 
 		else {
 			loan.save().then(() => {
 				res.redirect('/loans');
-			}).catch(error => {
-				res.send(500);
-			});
+			}).catch(next);
 		}
-
 	});
 });
-
 
 /* GET return loan form */
 router.get('/:id', function(req, res, next){
@@ -149,15 +128,11 @@ router.get('/:id', function(req, res, next){
 	Loan.findById(req.params.id, {
 		include: [{all: true}]
 	}).then(loan => {
-		if(loan) {
-			res.render('loans/return', {loan: loan, returned_on: returned_on});
-		} else {
-			res.send(400);
+		if(!loan) {
+			next();
 		}
-		
-	}).catch(error => {
-		res.send(500);
-	});
+		res.render('loans/return', { loan, returned_on });
+	}).catch(next);
 });
 
 /* PUT return loan form */
@@ -172,22 +147,16 @@ router.put('/:id', function(req, res, next) {
 			include: [{all: true}]
 		}).then(loan => {
 			res.render('loans/return', {
-				loan:loan, 
-				returned_on: req.body.returned_on, 
-				errors: errors
+				loan, returned_on: req.body.returned_on, errors
 			})
-		}).catch(error => {
-			res.send(error.message);
-		});
+		}).catch(next);
 	}
 
 	else {
 		Loan.findById(req.params.id).then(loan => {
 			loan.update(req.body);
 			res.redirect('/loans');
-		}).catch(error => {
-			res.send(error.message);
-		});
+		}).catch(next);
 	}
 });
 

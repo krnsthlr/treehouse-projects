@@ -1,8 +1,10 @@
 var express = require('express');
 var router = express.Router();
+
 var Book = require('../models').Book;
 var Loan = require('../models').Loan;
 var Patron = require('../models').Patron;
+
 var bookSchema = require('../validate.js').bookSchema;
 
 /* GET books listing. */
@@ -11,10 +13,8 @@ router.get('/', function(req, res, next) {
 	/* get all books */
 	if(!req.query.filter) {
 		Book.findAll().then(books => {
-			res.render('books/index', {books: books, title: 'Books'});
-		}).catch(error => {
-			res.send(500);
-		});
+			res.render('books/index', { books, title: 'Books' });
+		}).catch(next);
 	}
 	/* get books with loan status overdue */ 
 	if(req.query.filter === 'overdue') {
@@ -30,10 +30,8 @@ router.get('/', function(req, res, next) {
 					}}
 			]
 		}).then(books => {
-			res.render('books/index', {books: books});
-		}).catch(error => {
-			res.send(500);
-		});
+			res.render('books/index', { books });
+		}).catch(next);
 	}
 
 	/* get checked out books */ 
@@ -50,10 +48,8 @@ router.get('/', function(req, res, next) {
 			]
 		}
 		).then(books => {
-			res.render('books/index', {books: books});
-		}).catch(error => {
-			res.send(500);
-		});
+			res.render('books/index', { books });
+		}).catch(next);
 	}
 
 });
@@ -74,15 +70,13 @@ router.post('/new', function(req, res, next){
 		var errors = result.useFirstErrorOnly().mapped();
 
 		if(errors) {
-			res.render('books/new', {book: book, errors: errors});
+			res.render('books/new', { book, errors });
 		} 
 
 		else {
 			book.save().then(book => {
 				res.redirect('/books');
-			}).catch(error => {
-				res.send(500);
-			});
+			}).catch(next);
 		}
 	});
 	
@@ -99,14 +93,11 @@ router.get('/:id', function(req, res, next){
 			}
 		]
 	}).then(book => {
-		if(book){
-			res.render('books/detail', {book: book});
-		} else {
-			res.send(404);
-		}	
-	}).catch(error => {
-		res.send(500);
-	})
+		if(!book) {
+			next();
+		}
+		res.render('books/detail', { book });	
+	}).catch(next);
 });
 
 /* PUT edit/update individual book */
@@ -135,10 +126,8 @@ router.put('/:id', function(req, res, next){
 				book.genre = req.body.genre;
 				book.first_published = req.body.first_published;
 
-				res.render('books/detail', {book: book, errors: errors});
-			}).catch(error => {
-				res.send(error.message);
-			});
+				res.render('books/detail', { book, errors });
+			}).catch(next);
 			
 		}
 
@@ -154,11 +143,8 @@ router.put('/:id', function(req, res, next){
 			}).then(book => {
 				book.update(req.body);
 				res.redirect('/books');
-			}).catch(error => {
-				res.send(error.message);
-			});		
+			}).catch(next);		
 		}
-
 	});
 });
 
