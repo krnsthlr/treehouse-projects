@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var bcrypt = require('bcrypt');
 
 var UserSchema = new Schema({
 		fullName: {
@@ -23,7 +24,19 @@ var UserSchema = new Schema({
 		}
 	});
 
+UserSchema.pre('save', function(next){
+
+	var user = this;
+	bcrypt.hash(user.password, 10, function(err, hash){
+		if(err) return next(err);
+		user.password = hash;
+		next();
+	});
+});
+
 var User = mongoose.model('User', UserSchema);
+
+
 
 var CourseSchema = new Schema({
 		user: Schema.ObjectId,
@@ -55,6 +68,8 @@ var CourseSchema = new Schema({
 
 var Course = mongoose.model('Course', CourseSchema);
 
+
+
 var ReviewSchema = new Schema({
 		user: Schema.ObjectId,
 		postedOn: {
@@ -71,6 +86,7 @@ var ReviewSchema = new Schema({
 	});
 
 var Review = mongoose.model('Review', ReviewSchema);
+
 
 module.exports.User = User;
 module.exports.Course = Course;

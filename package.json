@@ -12,6 +12,7 @@
     "nodemon": "^1.9.1"
   },
   "dependencies": {
+    "bcrypt": "^1.0.2",
     "express": "^4.13.4",
     "mongoose": "^4.11.1",
     "mongoose-seeder": "^1.2.1",
