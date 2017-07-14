@@ -39,7 +39,7 @@ var User = mongoose.model('User', UserSchema);
 
 
 var CourseSchema = new Schema({
-		user: Schema.ObjectId,
+		user: [{type: Schema.ObjectId, ref: 'User'}],
 		title: {
 			type: String,
 			trim: true,
@@ -63,7 +63,7 @@ var CourseSchema = new Schema({
 				required: true
 			}
 		}],
-		reviews: [Schema.ObjectId]
+		reviews: [{type: Schema.ObjectId, ref: 'Review'}]
 	});
 
 var Course = mongoose.model('Course', CourseSchema);
