@@ -13,8 +13,20 @@ var UserSchema = new Schema({
 		emailAddress: {
 			type: String,
 			trim: true,
-			unique: true,
 			required: [true, 'User email required'],
+			validate: {
+				isAsync: true,
+				validator: function(val, respond) {
+					var self = this;
+					return self.constructor.findOne({emailAddress: val})
+					.exec(function(err, user){
+						if(err) throw err;
+						else if(user) return respond(false);
+						else return respond(true);
+					})
+				},
+				message: 'User email already exists'
+			},
 			match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
 			'Invalid user email']
 		},

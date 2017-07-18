@@ -48,9 +48,12 @@ router.get('/users', requiresLogin, function(req, res, next){
 // POST /users
 router.post('/users', function(req, res, next){
 	var user = new User(req.body);
-	user.save(function(err, user){
-		if(err) return next(err);
-		res.status = 201;
+	user.save(function(err){
+		if(err) {
+			err.status = 400;
+			return next(err);
+		}
+		res.status(201);
 		res.setHeader('Location', '/');
 		res.send();
 	})
@@ -74,8 +77,11 @@ router.get('/courses/:courseID', function(req, res, next){
 router.post('/courses', requiresLogin, function(req, res, next){
 	var course = new Course(req.body);
 	course.save(function(err, course){
-		if(err) return next(err);
-		res.status = 201;
+		if(err) {
+			err.status = 400;
+			return next(err);
+		}
+		res.status(201);
 		res.setHeader('Location', '/' + course._id);
 		res.send();
 	})
@@ -84,8 +90,11 @@ router.post('/courses', requiresLogin, function(req, res, next){
 // PUT /courses/:id
 router.put('/courses/:courseID', requiresLogin, function(req, res, next){
 	Course.update({_id: req.course._id}, {$set: req.body}, function(err, course){
-		if(err) return next(err);
-		res.status = 204;
+		if(err) {
+			err.status = 400;
+			return next(err);
+		}
+		res.status(204);
 		res.send();
 	});
 });
@@ -98,11 +107,17 @@ router.post('/courses/:courseID/reviews', requiresLogin, function(req, res, next
 		review: req.body.review
 	});
 	review.save(function(err,review){
-		if(err) return next(err);
+		if(err) {
+			err.status = 400;
+			return next(err);
+		}
 		req.course.reviews.push(review);
 		req.course.save(function(err){
-			if(err) return next(err);
-			res.status = 201;
+			if(err) {
+				err.status = 400;
+				return next(err);
+			}
+			res.status(201);
 			res.setHeader('Location', '/' + req.course._id);
 			res.send();
 		});	
