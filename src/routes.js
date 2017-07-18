@@ -4,6 +4,7 @@ var express = require('express');
 var router = express.Router();
 var User = require('./models.js').User;
 var Course = require('./models.js').Course;
+var Review = require('./models.js').Review;
 var auth = require('basic-auth');
 
 // Check for user authentication
@@ -89,5 +90,23 @@ router.put('/courses/:courseID', requiresLogin, function(req, res, next){
 	});
 });
 
+// POST /courses/:courseId/reviews
+router.post('/courses/:courseID/reviews', requiresLogin, function(req, res, next){
+	var review = new Review({
+		user: req.user,
+		rating: req.body.rating,
+		review: req.body.review
+	});
+	review.save(function(err,review){
+		if(err) return next(err);
+		req.course.reviews.push(review);
+		req.course.save(function(err){
+			if(err) return next(err);
+			res.status = 201;
+			res.setHeader('Location', '/' + req.course._id);
+			res.send();
+		});	
+	});
+});
 
 module.exports = router;
