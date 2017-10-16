@@ -1,0 +1,194 @@
+<div class="grid-100 row controls">
+  <div class="grid-50">
+    <h2 ng-if="vm.location==='/add'">Add New Recipe</h2>
+    <h2 ng-if="vm.location!=='/add'">{{vm.recipe.name}}</h2>
+  </div>
+  <div class="grid-50">
+    <div class="flush-right">
+      <button ng-if="vm.location==='/add'"
+              ng-click="vm.addRecipe(vm.recipe)">Save Recipe</button>
+      <button ng-if="vm.location!=='/add'"
+              ng-click="vm.updateRecipe(vm.currentId, vm.recipe)">Save Recipe</button>
+      <button ng-click="vm.cancel()" class="secondary">Cancel</button>
+    </div>
+  </div>
+</div>
+<div class="clear"></div>
+
+<div ng-show="vm.validationErrors.length" class="grid-100 row">
+  <div class="grid-100">
+    <p><i>The following errors were found:</i></p>
+    <ul class="validation-errors">
+      <li ng-repeat="error in vm.validationErrors">
+        {{error}}
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="clear"></div>
+
+<div class="grid-100 row">
+  <div class="grid-20">
+    <p class="label-spacing">
+      <label> Name </label>
+    </p>
+  </div>
+  <div class="grid-40">
+    <p>
+      <input ng-model="vm.recipe.name" type="text">
+    </p>
+  </div>
+</div>
+<div class="clear"></div>
+
+<div class="grid-100 row">
+  <div class="grid-20">
+    <p class="label-spacing">
+      <label> Description </label>
+    </p>
+  </div>
+  <div class="grid-60">
+    <p>
+      <textarea ng-model="vm.recipe.description"></textarea>
+    </p>
+  </div>
+</div>
+<div class="clear"></div>
+
+<div class="grid-100 row">
+  <div class="grid-20">
+    <p class="label-spacing">
+      <label> Category </label>
+    </p>
+  </div>
+  <div class="grid-30">
+    <p>
+      <select ng-model="vm.recipe.category"
+              ng-options="item.name as item.name for item in vm.categories">
+        <option value=vm.recipe.category></option>
+      </select>
+    </p>
+  </div>
+</div>
+<div class="clear"></div>
+
+<div class="grid-100 row">
+  <div class="grid-20">
+    <p class="label-spacing">
+      <label> Prep Time </label>
+    </p>
+  </div>
+  <div class="grid-20">
+    <p>
+      <input ng-model="vm.recipe.prepTime" type="number">
+    </p>
+  </div>
+</div>
+<div class="clear"></div>
+
+<div class="grid-100 row">
+  <div class="grid-20">
+    <p class="label-spacing">
+      <label> Cook Time </label>
+    </p>
+  </div>
+  <div class="grid-20">
+    <p>
+      <input ng-model="vm.recipe.cookTime" type="number">
+    </p>
+  </div>
+</div>
+<div class="clear"></div>
+
+<div class="grid-100 row">
+  <div class="grid-20">
+    <p class="label-spacing">
+      <label> Ingredients </label>
+    </p>
+  </div>
+  <div class="grid-30">
+    <p class="label-spacing">
+      <label> Item </label>
+    </p>
+  </div>
+  <div class="grid-30">
+    <p class="label-spacing">
+      <label> Condition </label>
+    </p>
+  </div>
+  <div class="grid-15">
+    <p class="label-spacing">
+      <label> Amount </label>
+    </p>
+  </div>
+
+  <div ng-repeat="item in vm.recipe.ingredients" class="ingredient-row">
+    <div class="prefix-20 grid-30">
+      <p>
+        <select ng-model="item.foodItem" 
+                ng-options="item.name as item.name for item in vm.foodItems">
+          <option value="">Select Item</option>
+        </select>
+      </p>
+    </div>
+    <div class="grid-30">
+      <p>
+        <input ng-model="item.condition" type="text">
+      </p>
+    </div>
+    <div class="grid-15">
+      <p>
+        <input ng-model="item.amount" type="text">
+      </p>
+    </div>
+    <div class="grid-5 pad-top">
+      <p class="flush-right">
+        <a ng-click="vm.deleteIngredient($index)"class="no-action-link"> 
+          <img src="images/delete.svg" height="12px"> </a>
+      </p>
+    </div>
+  </div>
+
+  <div class="prefix-20 grid-80 add-row">
+    <p>
+      <button ng-click="vm.addIngredient()">+ Add Another Ingredient</button>
+    </p>
+  </div>
+
+</div>
+<div class="clear"></div>
+
+<div class="grid-100 row">
+  <div class="grid-20">
+    <p class="label-spacing">
+      <label> Steps </label>
+    </p>
+  </div>
+  <div class="grid-75">
+    <p class="label-spacing">
+      <label> Description </label>
+    </p>
+  </div>
+
+  <div ng-repeat="step in vm.recipe.steps" class="step-row">
+    <div class="prefix-20 grid-75">
+      <p>
+        <input ng-model="step.description" type="text">
+      </p>
+    </div>
+    <div class="grid-5 pad-top">
+      <p class="flush-right">
+        <a ng-click="vm.deleteStep($index)"class="no-action-link"> 
+          <img src="images/delete.svg" height="12px"> </a>
+      </p>
+    </div>
+  </div>
+
+  <div class="prefix-20 grid-80 add-row">
+    <p>
+     <button ng-click="vm.addStep()">+ Add Another Step</button>
+    </p>
+  </div>
+
+</div>
+<div class="clear"></div>
