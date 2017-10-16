@@ -1,0 +1,15 @@
+{
+  "name": "twitter_profile-app",
+  "version": "1.0.0",
+  "description": "An express app to render Twitter profile information to a user. The project is part of the JavaScript Techdegree Program on Treehouse.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ksthlr",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.15.2",
+    "twit": "^2.2.5"
+  }
+}
