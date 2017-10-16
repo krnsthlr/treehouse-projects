@@ -1,0 +1,119 @@
+body{
+  background-color: #e1f1f6;
+  font-family: Helvetica, sans-serif;
+  color: #222;
+}
+
+.page{
+  margin: 50px auto;
+  width: 70%;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 50px;
+}
+
+.page-header{
+  margin-bottom: 20px;
+}
+  .page-header h2{
+    float: left;
+    font-size: 22px;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #555;
+  }
+
+  .page-header .student-search{
+    float: right;
+  }
+
+    .page-header .student-search input{
+      border-radius: 5px;
+      border: 1px solid #eaeaea;
+      padding: 8px 15px;
+      font-size: 14px;
+    }
+
+    .page-header .student-search button{
+      border-radius: 5px;
+      border: 1px solid #eaeaea;
+      padding: 8px 15px;
+      font-size: 14px;
+      background-color: #4ba6c3;
+      color: #fff
+    }
+
+.student-list{}
+
+  .student-item{
+    margin: 0 0 20px 0;
+    padding: 0 0 20px 0;
+    border-bottom: 1px solid #eaeaea;
+  }
+
+    .student-details{
+      width: 50%;
+      float: left;
+    }
+
+      .student-details .avatar{
+        width: 40px;
+        height: auto;
+        border-radius: 20px;
+        float: left;
+        margin-right: 14px
+      }
+
+      .student-details h3{
+        margin: 4px 0 2px 0;
+        font-weight: bold;
+        color: #4ba6c3;
+      }
+
+      .student-details .email{
+        color: #888;
+        font-size: 14px;
+      }
+
+
+    .joined-details{
+      width: 50%;
+      float: left;
+      text-align: right;
+    }
+
+      .joined-details .date{
+        margin-top: 15px;
+        display: block;
+        font-size: 14px;
+        color: #999;
+      }
+
+  .student-item:last-child{
+    margin: 0;
+    padding: 0;
+    border-bottom: none;
+  }
+
+.pagination{
+  margin: 40px 0 0 0;
+  text-align: center;
+}
+ 
+  .pagination li{
+    display: inline;
+  }
+
+    .pagination li a{
+      border: 1px solid #eaeaea;
+      border-radius: 5px;
+      padding: 3px 8px;
+      text-decoration: none;
+      color: #4ba6c3;
+    }
+
+    .pagination li a.active,
+    .pagination li a:hover{
+      background-color: #4ba6c3;
+      color: #fff;
+    }
