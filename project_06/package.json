@@ -1,0 +1,16 @@
+{
+  "name": "content_scraper",
+  "version": "0.0.0",
+  "description": "A content scraper for demo site shirts4mike",
+  "main": "scraper.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node scraper.js"
+  },
+  "author": "Karin Seethaler",
+  "license": "MIT",
+  "dependencies": {
+    "json2csv": "^3.7.3",
+    "osmosis": "^1.1.2"
+  }
+}
