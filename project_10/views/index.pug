@@ -1,0 +1,35 @@
+extends layout
+
+block content
+  h1 Library Manager
+  p Welcome to Library Manager
+  ul
+    li
+      | Books
+      ul
+        li
+          a(href='/books/new') New Book
+        li
+          a(href='/books') List All
+        li
+          a(href='/books?filter=overdue') List Overdue
+        li
+          a(href='/books?filter=checked_out') List Checked Out
+    li
+      | Patrons
+      ul
+        li
+          a(href='/patrons/new') New Patron
+        li
+          a(href='/patrons') List All
+    li
+      | Loans
+      ul
+        li
+          a(href='/loans/new') New Loan
+        li
+          a(href='/loans') List All
+        li
+          a(href='/loans?filter=overdue') List Overdue
+        li
+          a(href='/loans?filter=checked') List Checked Out

@@ -1,0 +1,54 @@
+extends ../layout
+
+block content
+
+	h1 Book: #{book.title}
+	form(method='post' action='/books/' + book.id + '?_method=PUT')
+		p
+			label(for='title') Title
+			input(type='text', name='title', value=book.title)
+
+			if (errors && errors.title)
+				span.notify-error #{errors.title.msg}
+		p
+			label(for='author') Author
+			input(type='text', name='author', value=book.author)
+
+			if (errors && errors.author)
+				span.notify-error #{errors.author.msg}
+		p
+			label(for='genre') Genre
+			input(type='text', name='genre', value=book.genre)
+
+			if (errors && errors.genre)
+				span.notify-error #{errors.genre.msg}
+		p
+			label(for='first_published') First Published
+			input(type='text', name='first_published', value=book.first_published)
+
+			if (errors && errors.first_published)
+				span.notify-error #{errors.first_published.msg}
+		p
+			input(type='submit', value='Update')
+	h2 Loan History
+	table
+		thead
+			tr
+				th Book
+				th Patron 
+				th Loaned on
+				th Return by 
+				th Returned on
+				th Action
+		tbody
+			each loan in book.Loans
+				tr
+					td
+						a(href='/books/' + book.id) #{book.title}
+					td
+						a(href='/patrons/' + loan.Patron.id) #{loan.Patron.first_name} #{loan.Patron.last_name}
+					td #{loan.loaned_on}
+					td #{loan.return_by}
+					td #{loan.returned_on}
+					td
+						a.button(href='/loans/' + loan.id) Return Book

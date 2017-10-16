@@ -1,0 +1,24 @@
+extends ../layout
+
+block content
+
+	h1 Patrons
+	p
+		a.button(href='/patrons/new') Create New Patron
+	table
+		thead
+			tr
+				th Name 
+				th Address
+				th Email
+				th Library ID
+				th Zip
+		tbody
+			each patron in patrons
+				tr
+					td
+						a(href='/patrons/' + patron.id) #{patron.first_name} #{patron.last_name}
+					td #{patron.address}
+					td #{patron.email}
+					td #{patron.library_id}
+					td #{patron.zip_code}
